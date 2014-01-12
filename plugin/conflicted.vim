@@ -33,6 +33,34 @@ function! s:NextOrQuit()
   endif
 endfunction
 
+function! s:DiffgetRevision(revision)
+  execute 'diffget //' . a:revision
+  diffupdate
+endfunction
+
+function! s:DiffgetLocal()
+  call s:DiffgetRevision(3)
+endfunction
+
+function! s:DiffgetUpstream()
+  call s:DiffgetRevision(2)
+endfunction
+
+xnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetLocal()<cr>
+nnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetLocal()<cr>
+xnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetUpstream()<cr>
+nnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetUpstream()<cr>
+
+if !hasmapto('<Plug>DiffgetLocal')
+  xmap gl  <Plug>DiffgetLocal
+  nmap gl  <Plug>DiffgetLocal
+endif
+
+if !hasmapto('<Plug>DiffgetUpstream')
+  xmap gu  <Plug>DiffgetUpstream
+  nmap gu  <Plug>DiffgetUpstream
+endif
+
 command! Conflicted call <sid>Conflicted()
 command! Merger call <sid>Merger()
 command! GitNextConflict call <sid>GitNextConflict()
