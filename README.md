@@ -13,12 +13,14 @@ Usage
 
 Conflicted provides three primary commands for working with conflicts:
 
-### Conflicted
+### Commands
+
+**Conflicted**
 
 `Conflicted` will add all the conflicted files to Vim's `arglist` and open
 the first in `Merger` mode.
 
-### GitNextConflict
+**GitNextConflict**
 
 After editing the merged file to resolve the conflict and remove all conflict
 markers, running `GitNextConflict` will mark the file as resolved and open
@@ -26,11 +28,31 @@ the next file in `Merger` mode for resolution.
 
 If you are on the last file, `GitNextConflict` will quit Vim.
 
-### Merger
+**Merger**
 
 `Merger` will open the various views of the conflicted file. This command is
 exposed for completeness, but likely you will not need to call this command
 directly as both `Conflicted` and `GitNextConflict` will call it for you.
+
+### Diffget Mappings
+
+Conflicted provides mappings to perform a `diffget` from the working version
+of the file, targeting either the upstream or local version. These mappings
+are provided in both normal and visual mode:
+
+1. `gu` - diffget from the upstream version
+1. `gl` - diffget from the local version
+
+If you would prefer different mappings, you can overide with the following in
+your vimrc:
+
+``` vim
+" Use `dgl` and `dgu` rather than defaul diffget mappings
+xmap dgl <Plug>DiffgetLocal
+nmap dgl <Plug>DiffgetLocal
+xmap dgu <Plug>DiffgetUpstream
+nmap dgu <Plug>DiffgetUpstream
+```
 
 ### Satusline Integration
 
@@ -54,5 +76,31 @@ within Vim:
 ``` vim
 Bundle 'christoomey/vim-conflicted'
 ```
+
+Overview
+--------
+
+### Revisions
+
+Conflicted makes reference to four different versions of each conflicted
+file. These versions are:
+
+1. `base` - The common ancestor of the file in the upstream and local branches
+1. `upstream` - The core branch (usually `master`), that you are merging into
+   or rebasing onto.
+1. `local` - The feature branch containing your changes
+1. `working` - The final combined version of the file
+
+### Tabs
+
+For each conflicted file, Conflicted will open 3 tabs, each with a different
+diff view presented:
+
+1. **Gdiff 3-way** - 3 way diff comparing the upstream, working, and local
+   versions of the file.
+1. **Upstream Changes** - A 2 way diff between the base and upstream versions
+   of the file.
+1. **Local Changes** - A 2 way diff between the base and local versions of
+   the file.
 
 [Vundle]: https://github.com/gmarik/vundle

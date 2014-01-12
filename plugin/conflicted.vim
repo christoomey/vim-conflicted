@@ -56,32 +56,29 @@ function! s:NextOrQuit()
   endif
 endfunction
 
-function! s:DiffgetRevision(revision)
-  execute 'diffget //' . a:revision
+function! s:DiffgetRevision(revision, ...)
+  let targeted_diffget = 'diffget //' . s:revision_map[a:revision]
+  if a:0
+    execute "'<,'>" . targeted_diffget
+  else
+    execute targeted_diffget
+  endif
   diffupdate
 endfunction
 
-function! s:DiffgetLocal()
-  call s:DiffgetRevision(3)
-endfunction
-
-function! s:DiffgetUpstream()
-  call s:DiffgetRevision(2)
-endfunction
-
-xnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetLocal()<cr>
-nnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetLocal()<cr>
-xnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetUpstream()<cr>
-nnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetUpstream()<cr>
+nnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetRevision('local')<cr>
+nnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetRevision('upstream')<cr>
+xnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetRevision('local', line("'<"), line("'>"))<cr>
+xnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetRevision('upstream', line("'<"), line("'>"))<cr>
 
 if !hasmapto('<Plug>DiffgetLocal')
-  xmap gl  <Plug>DiffgetLocal
-  nmap gl  <Plug>DiffgetLocal
+  xmap gl <Plug>DiffgetLocal
+  nmap gl <Plug>DiffgetLocal
 endif
 
 if !hasmapto('<Plug>DiffgetUpstream')
-  xmap gu  <Plug>DiffgetUpstream
-  nmap gu  <Plug>DiffgetUpstream
+  xmap gu <Plug>DiffgetUpstream
+  nmap gu <Plug>DiffgetUpstream
 endif
 
 command! Conflicted call <sid>Conflicted()
