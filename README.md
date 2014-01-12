@@ -32,6 +32,15 @@ If you are on the last file, `GitNextConflict` will quit Vim.
 exposed for completeness, but likely you will not need to call this command
 directly as both `Conflicted` and `GitNextConflict` will call it for you.
 
+### Satusline Integration
+
+Add the following to your vimrc to display the revision name of each split in
+the vim statusbar:
+
+``` vim
+set stl+=%{ConflictedRevision()}
+```
+
 Installation
 ------------
 

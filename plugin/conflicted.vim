@@ -1,3 +1,5 @@
+let s:revision_map = {'upstream': 2, 'local': 3}
+
 function! s:Conflicted()
   args `git ls-files -u \| awk '{print $4}' \| sort -u`
   Merger
@@ -5,17 +7,38 @@ endfunction
 
 function! s:TabEdit(parent)
   Gtabedit :1
+  let b:conflicted_revision = 'base'
   diffthis
-  execute 'Gvsplit :' . {'upstream': 2, 'local': 3}[a:parent]
+  execute 'Gvsplit :' . s:revision_map[a:parent]
+  let b:conflicted_revision = a:parent
   diffthis
   wincmd r
 endfunction
 
 function! s:Merger()
   Gdiff
+  call s:SetRevisionStatuslines()
   call s:TabEdit('upstream')
   call s:TabEdit('local')
   tabfirst
+endfunction
+
+function! s:SetRevisionStatuslines()
+  let b:conflicted_revision = 'working'
+  wincmd h
+  let b:conflicted_revision = 'upstream'
+  wincmd l
+  wincmd l
+  let b:conflicted_revision = 'local'
+  wincmd h
+endfunction
+
+function! ConflictedRevision()
+  if exists('b:conflicted_revision')
+    return b:conflicted_revision . ' '
+  else
+    return ''
+  end
 endfunction
 
 function! s:GitNextConflict()
