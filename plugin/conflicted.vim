@@ -72,13 +72,13 @@ xnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetVersion('local', lin
 xnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetVersion('upstream', line("'<"), line("'>"))<cr>
 
 if !hasmapto('<Plug>DiffgetLocal')
-  xmap gl <Plug>DiffgetLocal
-  nmap gl <Plug>DiffgetLocal
+  xmap dgl <Plug>DiffgetLocal
+  nmap dgl <Plug>DiffgetLocal
 endif
 
 if !hasmapto('<Plug>DiffgetUpstream')
-  xmap gu <Plug>DiffgetUpstream
-  nmap gu <Plug>DiffgetUpstream
+  xmap dgu <Plug>DiffgetUpstream
+  nmap dgu <Plug>DiffgetUpstream
 endif
 
 command! Conflicted call <sid>Conflicted()

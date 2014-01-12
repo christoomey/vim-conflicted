@@ -37,21 +37,21 @@ directly as both `Conflicted` and `GitNextConflict` will call it for you.
 ### Diffget Mappings
 
 Conflicted provides mappings to perform a `diffget` from the working version
-of the file, targeting either the upstream or local version. These mappings
+of the file, pulling from either the upstream or local version. These mappings
 are provided in both normal and visual mode:
 
-1. `gu` - diffget from the upstream version
-1. `gl` - diffget from the local version
+1. `dgu` - diffget from the upstream version
+1. `dgl` - diffget from the local version
 
 If you would prefer different mappings, you can overide with the following in
 your vimrc:
 
 ``` vim
-" Use `dgl` and `dgu` rather than the default conflicted diffget mappings
-xmap dgl <Plug>DiffgetLocal
-nmap dgl <Plug>DiffgetLocal
-xmap dgu <Plug>DiffgetUpstream
-nmap dgu <Plug>DiffgetUpstream
+" Use `gl` and `gu` rather than the default conflicted diffget mappings
+xmap gl <Plug>DiffgetLocal
+nmap gl <Plug>DiffgetLocal
+xmap gu <Plug>DiffgetUpstream
+nmap gu <Plug>DiffgetUpstream
 ```
 
 ### Satusline Integration
