@@ -5,6 +5,7 @@ let g:conflicted_tab_labels = ['working', 'upstream', 'local']
 function! s:Conflicted()
   args `git ls-files -u \| awk '{print $4}' \| sort -u`
   set tabline=%!ConflictedTabline()
+  set guitablabel=%{ConflictedGuiTabLabel()}
   Merger
 endfunction
 
@@ -34,6 +35,10 @@ function ConflictedTabline()
   endif
 
   return s
+endfunction
+
+function! ConflictedGuiTabLabel()
+  return ConflictedTabLabel(tabpagenr() - 1)
 endfunction
 
 function! ConflictedTabLabel(tabnr)

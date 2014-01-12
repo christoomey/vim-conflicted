@@ -56,10 +56,13 @@ nmap gu <Plug>DiffgetUpstream
 
 ### Tabline
 
-Conflicted will configure the `tabline` setting to display a logical label
-for each of the versions:
+Conflicted will configure the tab label to display the name of the revision in
+the tab. This is done via the `tabline` setting in terminal Vim, and the
+`guitablabel` setting in graphical Vim, ie MacVim.
 
-![Terminal Tabline](images/tablabel-terminal.png)
+![Terminal tabline](./images/tablabel-terminal.png)
+
+![MacVim tab Label](./images/tablabel-macvim.png)
 
 ### Satusline Integration
 
