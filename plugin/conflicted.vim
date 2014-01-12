@@ -1,6 +1,4 @@
-let s:version_map = {'upstream': 2, 'local': 3}
-let g:conflicted_tab_labels = ['working', 'upstream', 'local']
-
+let s:versions = ['working', 'upstream', 'local']
 
 function! s:Conflicted()
   args `git ls-files -u \| awk '{print $4}' \| sort -u`
@@ -42,14 +40,14 @@ function! ConflictedGuiTabLabel()
 endfunction
 
 function! ConflictedTabLabel(tabnr)
-  return (a:tabnr + 1) . ': [' . g:conflicted_tab_labels[a:tabnr] . ']'
+  return (a:tabnr + 1) . ': [' . s:versions[a:tabnr] . ']'
 endfunction
 
 function! s:TabEdit(parent)
   Gtabedit :1
   let b:conflicted_version = 'base'
   diffthis
-  execute 'Gvsplit :' . s:version_map[a:parent]
+  execute 'Gvsplit :' . s:VersionNumber(a:parent)
   let b:conflicted_version = a:parent
   diffthis
   wincmd r
@@ -96,8 +94,12 @@ function! s:NextOrQuit()
   endif
 endfunction
 
+function! s:VersionNumber(version)
+  return index(s:versions, a:version) + 1
+endfunction
+
 function! s:DiffgetVersion(version, ...)
-  let targeted_diffget = 'diffget //' . s:version_map[a:version]
+  let targeted_diffget = 'diffget //' . s:VersionNumber(a:version)
   if a:0
     execute "'<,'>" . targeted_diffget
   else
