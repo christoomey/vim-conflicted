@@ -96,6 +96,8 @@ Bundle 'christoomey/vim-conflicted'
 Overview
 --------
 
+![](./images/overview.gif)
+
 ### Versions
 
 Conflicted makes reference to four different versions of each conflicted
@@ -114,9 +116,17 @@ diff view presented:
 
 1. **Gdiff 3-way** - 3 way diff comparing the upstream, working, and local
    versions of the file.
+
+![Tab 1 - Working](./images/tab1.png)
+
 1. **Upstream Changes** - A 2 way diff between the base and upstream versions
    of the file.
+
+![Tab 2 - Upstream](./images/tab2.png)
+
 1. **Local Changes** - A 2 way diff between the base and local versions of
    the file.
+
+![Tab 3 - Local](./images/tab3.png)
 
 [Vundle]: https://github.com/gmarik/vundle
