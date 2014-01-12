@@ -54,6 +54,13 @@ xmap gu <Plug>DiffgetUpstream
 nmap gu <Plug>DiffgetUpstream
 ```
 
+### Tabline
+
+Conflicted will configure the `tabline` setting to display a logical label
+for each of the versions:
+
+![Terminal Tabline](images/tablabel-terminal.png)
+
 ### Satusline Integration
 
 Add the following to your vimrc to display the version name of each split in
@@ -66,6 +73,8 @@ set stl+=%{ConflictedVersion()}
 Normally it will not add anything to the statusline, but if you are in
 conflicted mode then it will add the conflicted version, ie 'local',
 'working', etc.
+
+![Satusline](images/statusline.png)
 
 Installation
 ------------

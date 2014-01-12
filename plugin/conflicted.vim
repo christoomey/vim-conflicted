@@ -1,8 +1,43 @@
 let s:version_map = {'upstream': 2, 'local': 3}
+let g:conflicted_tab_labels = ['working', 'upstream', 'local']
+
 
 function! s:Conflicted()
   args `git ls-files -u \| awk '{print $4}' \| sort -u`
+  set tabline=%!ConflictedTabline()
   Merger
+endfunction
+
+function ConflictedTabline()
+  let s = ''
+  for tabnr in range(tabpagenr('$'))
+    " select the highlighting
+    if tabnr + 1 == tabpagenr()
+      let s .= '%#TabLineSel#'
+    else
+      let s .= '%#TabLine#'
+    endif
+
+    " set the tab page number (for mouse clicks)
+    let s .= '%' . (tabnr + 1) . 'T'
+
+    " the label is made by MyTabLabel()
+    let s .= ' %{ConflictedTabLabel(' . tabnr . ')} '
+  endfor
+
+  " after the last tab fill with TabLineFill and reset tab page nr
+  let s .= '%#TabLineFill#%T'
+
+  " right-align the label to close the current tab page
+  if tabpagenr('$') > 1
+    let s .= '%=%#TabLine#%999X'
+  endif
+
+  return s
+endfunction
+
+function! ConflictedTabLabel(tabnr)
+  return (a:tabnr + 1) . ': [' . g:conflicted_tab_labels[a:tabnr] . ']'
 endfunction
 
 function! s:TabEdit(parent)
