@@ -1,4 +1,4 @@
-let s:revision_map = {'upstream': 2, 'local': 3}
+let s:version_map = {'upstream': 2, 'local': 3}
 
 function! s:Conflicted()
   args `git ls-files -u \| awk '{print $4}' \| sort -u`
@@ -7,35 +7,35 @@ endfunction
 
 function! s:TabEdit(parent)
   Gtabedit :1
-  let b:conflicted_revision = 'base'
+  let b:conflicted_version = 'base'
   diffthis
-  execute 'Gvsplit :' . s:revision_map[a:parent]
-  let b:conflicted_revision = a:parent
+  execute 'Gvsplit :' . s:version_map[a:parent]
+  let b:conflicted_version = a:parent
   diffthis
   wincmd r
 endfunction
 
 function! s:Merger()
   Gdiff
-  call s:SetRevisionStatuslines()
+  call s:SetVersionStatuslines()
   call s:TabEdit('upstream')
   call s:TabEdit('local')
   tabfirst
 endfunction
 
-function! s:SetRevisionStatuslines()
-  let b:conflicted_revision = 'working'
+function! s:SetVersionStatuslines()
+  let b:conflicted_version = 'working'
   wincmd h
-  let b:conflicted_revision = 'upstream'
+  let b:conflicted_version = 'upstream'
   wincmd l
   wincmd l
-  let b:conflicted_revision = 'local'
+  let b:conflicted_version = 'local'
   wincmd h
 endfunction
 
-function! ConflictedRevision()
-  if exists('b:conflicted_revision')
-    return b:conflicted_revision . ' '
+function! ConflictedVersion()
+  if exists('b:conflicted_version')
+    return b:conflicted_version . ' '
   else
     return ''
   end
@@ -56,8 +56,8 @@ function! s:NextOrQuit()
   endif
 endfunction
 
-function! s:DiffgetRevision(revision, ...)
-  let targeted_diffget = 'diffget //' . s:revision_map[a:revision]
+function! s:DiffgetVersion(version, ...)
+  let targeted_diffget = 'diffget //' . s:version_map[a:version]
   if a:0
     execute "'<,'>" . targeted_diffget
   else
@@ -66,10 +66,10 @@ function! s:DiffgetRevision(revision, ...)
   diffupdate
 endfunction
 
-nnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetRevision('local')<cr>
-nnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetRevision('upstream')<cr>
-xnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetRevision('local', line("'<"), line("'>"))<cr>
-xnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetRevision('upstream', line("'<"), line("'>"))<cr>
+nnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetVersion('local')<cr>
+nnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetVersion('upstream')<cr>
+xnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetVersion('local', line("'<"), line("'>"))<cr>
+xnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetVersion('upstream', line("'<"), line("'>"))<cr>
 
 if !hasmapto('<Plug>DiffgetLocal')
   xmap gl <Plug>DiffgetLocal

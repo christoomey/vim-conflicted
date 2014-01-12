@@ -11,9 +11,9 @@ conflicts much more straightforward.
 Usage
 -----
 
-Conflicted provides three primary commands for working with conflicts:
-
 ### Commands
+
+Conflicted provides three primary commands for working with conflicts:
 
 **Conflicted**
 
@@ -47,7 +47,7 @@ If you would prefer different mappings, you can overide with the following in
 your vimrc:
 
 ``` vim
-" Use `dgl` and `dgu` rather than defaul diffget mappings
+" Use `dgl` and `dgu` rather than the default conflicted diffget mappings
 xmap dgl <Plug>DiffgetLocal
 nmap dgl <Plug>DiffgetLocal
 xmap dgu <Plug>DiffgetUpstream
@@ -56,12 +56,16 @@ nmap dgu <Plug>DiffgetUpstream
 
 ### Satusline Integration
 
-Add the following to your vimrc to display the revision name of each split in
+Add the following to your vimrc to display the version name of each split in
 the vim statusbar:
 
 ``` vim
-set stl+=%{ConflictedRevision()}
+set stl+=%{ConflictedVersion()}
 ```
+
+Normally it will not add anything to the statusline, but if you are in
+conflicted mode then it will add the conflicted version, ie 'local',
+'working', etc.
 
 Installation
 ------------
@@ -80,7 +84,7 @@ Bundle 'christoomey/vim-conflicted'
 Overview
 --------
 
-### Revisions
+### Versions
 
 Conflicted makes reference to four different versions of each conflicted
 file. These versions are:
