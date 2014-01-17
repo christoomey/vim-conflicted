@@ -1,4 +1,6 @@
 let s:versions = ['working', 'upstream', 'local']
+let s:diffget_local_map = 'dgl'
+let s:diffget_upstream_map = 'dgu'
 
 function! s:Conflicted()
   args `git ls-files -u \| awk '{print $4}' \| sort -u`
@@ -7,31 +9,30 @@ function! s:Conflicted()
   Merger
 endfunction
 
+function! s:Merger()
+  Gdiff
+  call s:MapTargetedDiffgets()
+  call s:SetVersionStatuslines()
+  call s:TabEdit('upstream')
+  call s:TabEdit('local')
+  tabfirst
+endfunction
+
 function ConflictedTabline()
   let s = ''
   for tabnr in range(tabpagenr('$'))
-    " select the highlighting
     if tabnr + 1 == tabpagenr()
       let s .= '%#TabLineSel#'
     else
       let s .= '%#TabLine#'
     endif
-
-    " set the tab page number (for mouse clicks)
     let s .= '%' . (tabnr + 1) . 'T'
-
-    " the label is made by MyTabLabel()
     let s .= ' %{ConflictedTabLabel(' . tabnr . ')} '
   endfor
-
-  " after the last tab fill with TabLineFill and reset tab page nr
   let s .= '%#TabLineFill#%T'
-
-  " right-align the label to close the current tab page
   if tabpagenr('$') > 1
     let s .= '%=%#TabLine#%999X'
   endif
-
   return s
 endfunction
 
@@ -51,14 +52,6 @@ function! s:TabEdit(parent)
   let b:conflicted_version = a:parent
   diffthis
   wincmd r
-endfunction
-
-function! s:Merger()
-  Gdiff
-  call s:SetVersionStatuslines()
-  call s:TabEdit('upstream')
-  call s:TabEdit('local')
-  tabfirst
 endfunction
 
 function! s:SetVersionStatuslines()
@@ -108,20 +101,28 @@ function! s:DiffgetVersion(version, ...)
   diffupdate
 endfunction
 
+function! s:DesiredDiffgetMap(version)
+  let user_map = 'g:diffget_' . a:verion . '_map'
+  let script_map = 's:diffget_' . a:verion . '_map'
+  if exists(user_map)
+    execute 'return ' . user_map
+  else
+    execute 'return ' . script_map
+  endif
+endfunction
+
 nnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetVersion('local')<cr>
 nnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetVersion('upstream')<cr>
 xnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetVersion('local', line("'<"), line("'>"))<cr>
 xnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetVersion('upstream', line("'<"), line("'>"))<cr>
 
-if !hasmapto('<Plug>DiffgetLocal')
-  xmap dgl <Plug>DiffgetLocal
-  nmap dgl <Plug>DiffgetLocal
-endif
+function! s:MapTargetedDiffgets()
+  execute 'xmap <buffer> ' . g:diffget_local_map . ' <Plug>DiffgetLocal'
+  execute 'nmap <buffer> ' . g:diffget_local_map . ' <Plug>DiffgetLocal'
 
-if !hasmapto('<Plug>DiffgetUpstream')
-  xmap dgu <Plug>DiffgetUpstream
-  nmap dgu <Plug>DiffgetUpstream
-endif
+  execute 'xmap <buffer> ' . g:diffget_upstream_map . ' <Plug>DiffgetUpstream'
+  execute 'nmap <buffer> ' . g:diffget_upstream_map . ' <Plug>DiffgetUpstream'
+endfunction
 
 command! Conflicted call <sid>Conflicted()
 command! Merger call <sid>Merger()

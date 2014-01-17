@@ -48,10 +48,8 @@ your vimrc:
 
 ``` vim
 " Use `gl` and `gu` rather than the default conflicted diffget mappings
-xmap gl <Plug>DiffgetLocal
-nmap gl <Plug>DiffgetLocal
-xmap gu <Plug>DiffgetUpstream
-nmap gu <Plug>DiffgetUpstream
+let g:diffget_local_map = 'gl'
+let g:diffget_upstream_map = 'gu'
 ```
 
 ### Tabline
@@ -90,6 +88,8 @@ Add the following line to your `~/.vimrc` and then run `BundleInstall` from
 within Vim:
 
 ``` vim
+" Fugitive is required for Conflicted
+Bundle 'tpope/vim-fugitive'
 Bundle 'christoomey/vim-conflicted'
 ```
 
