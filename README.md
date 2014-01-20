@@ -62,7 +62,7 @@ the tab. This is done via the `tabline` setting in terminal Vim, and the
 
 ![MacVim tab Label](./images/tablabel-macvim.png)
 
-### Satusline Integration
+### Statusline Integration
 
 Add the following to your vimrc to display the version name of each split in
 the vim statusbar:
@@ -75,7 +75,7 @@ Normally it will not add anything to the statusline, but if you are in
 conflicted mode then it will add the conflicted version, ie 'local',
 'working', etc.
 
-![Satusline](images/statusline.png)
+![Statusline](images/statusline.png)
 
 Installation
 ------------
