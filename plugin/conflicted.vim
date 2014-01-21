@@ -102,8 +102,8 @@ function! s:DiffgetVersion(version, ...)
 endfunction
 
 function! s:DesiredDiffgetMap(version)
-  let user_map = 'g:diffget_' . a:verion . '_map'
-  let script_map = 's:diffget_' . a:verion . '_map'
+  let user_map = 'g:diffget_' . a:version . '_map'
+  let script_map = 's:diffget_' . a:version . '_map'
   if exists(user_map)
     execute 'return ' . user_map
   else
@@ -117,11 +117,11 @@ xnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetVersion('local', lin
 xnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetVersion('upstream', line("'<"), line("'>"))<cr>
 
 function! s:MapTargetedDiffgets()
-  execute 'xmap <buffer> ' . g:diffget_local_map . ' <Plug>DiffgetLocal'
-  execute 'nmap <buffer> ' . g:diffget_local_map . ' <Plug>DiffgetLocal'
+  execute 'xmap <buffer> ' . s:DesiredDiffgetMap('local') . ' <Plug>DiffgetLocal'
+  execute 'nmap <buffer> ' . s:DesiredDiffgetMap('local') . ' <Plug>DiffgetLocal'
 
-  execute 'xmap <buffer> ' . g:diffget_upstream_map . ' <Plug>DiffgetUpstream'
-  execute 'nmap <buffer> ' . g:diffget_upstream_map . ' <Plug>DiffgetUpstream'
+  execute 'xmap <buffer> ' . s:DesiredDiffgetMap('upstream') . ' <Plug>DiffgetUpstream'
+  execute 'nmap <buffer> ' . s:DesiredDiffgetMap('upstream') . ' <Plug>DiffgetUpstream'
 endfunction
 
 command! Conflicted call <sid>Conflicted()
