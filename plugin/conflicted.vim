@@ -111,8 +111,12 @@ function! s:DesiredDiffgetMap(version)
   endif
 endfunction
 
-nnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetVersion('local')<cr>
-nnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetVersion('upstream')<cr>
+function! s:ConfigureRepeat(command)
+  silent! call repeat#set("\<Plug>" . a:command)
+endfunction
+
+nnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetVersion('local')<cr>:call <sid>ConfigureRepeat('DiffgetLocal')<cr>
+nnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetVersion('upstream')<cr>:call <sid>ConfigureRepeat('DiffgetUpstream')<cr>
 xnoremap <silent> <Plug>DiffgetLocal :<C-u>call <sid>DiffgetVersion('local', line("'<"), line("'>"))<cr>
 xnoremap <silent> <Plug>DiffgetUpstream :<C-u>call <sid>DiffgetVersion('upstream', line("'<"), line("'>"))<cr>
 
