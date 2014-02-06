@@ -18,7 +18,7 @@ function! s:Merger()
   tabfirst
 endfunction
 
-function ConflictedTabline()
+function! ConflictedTabline()
   let s = ''
   for tabnr in range(tabpagenr('$'))
     if tabnr + 1 == tabpagenr()
