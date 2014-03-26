@@ -1,3 +1,8 @@
+if exists('g:loaded_conflicted') || &cp
+  finish
+endif
+let g:loaded_conflicted = 1
+
 let s:versions = ['working', 'upstream', 'local']
 let s:diffget_local_map = 'dgl'
 let s:diffget_upstream_map = 'dgu'
