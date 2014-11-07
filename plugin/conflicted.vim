@@ -14,7 +14,31 @@ function! s:Conflicted()
   Merger
 endfunction
 
+function! s:Rebasing()
+  return isdirectory(".git/rebase-apply")
+endfunction
+
 function! s:BranchName(version)
+  if s:Rebasing()
+    return s:RebaseBranchName(a:version)
+  else
+    return s:MergeBranchName(a:version)
+  endif
+endfunction
+
+function! s:MergeBranchName(version)
+  if a:version ==# 'local'
+    let command = "cat .git/MERGE_MSG | head -1 | tr ' ' '\n' | tail -1 | sed \"s/'//g\""
+    return 'l:('.s:ChompedSystem(command).')'
+  elseif a:version ==# 'upstream'
+    let command = "git rev-parse --abbrev-ref HEAD"
+    return 'u:('.s:ChompedSystem(command).')'
+  else
+    return "branch-not-found"
+  end
+endfunction
+
+function! s:RebaseBranchName(version)
   if a:version ==# 'local'
     let command = "cat .git/rebase-apply/head-name | tr '/' '\n' | tail -1"
     return 'l:('.s:ChompedSystem(command).')'
