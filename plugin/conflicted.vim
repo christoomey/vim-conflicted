@@ -14,6 +14,23 @@ function! s:Conflicted()
   Merger
 endfunction
 
+function! s:BranchName(version)
+  if a:version ==# 'local'
+    let command = "cat .git/rebase-apply/head-name | tr '/' '\n' | tail -1"
+    return 'l:('.s:ChompedSystem(command).')'
+  elseif a:version ==# 'upstream'
+    let command = "git reflog | grep rebase: | head -1 | tr ' ' '\n' | tail -1"
+    return 'u:('.s:ChompedSystem(command).')'
+  else
+    return "branch-not-found"
+  end
+endfunction
+
+function! s:ChompedSystem(command)
+  let value = system(a:command)
+  return substitute(value, '\n$', '', '')
+endfunction
+
 function! s:Merger()
   Gdiff
   call s:MapTargetedDiffgets()
@@ -46,7 +63,13 @@ function! ConflictedGuiTabLabel()
 endfunction
 
 function! ConflictedTabLabel(tabnr)
-  return (a:tabnr + 1) . ': [' . s:versions[a:tabnr] . ']'
+  let label = ""
+  if a:tabnr > 0
+    let label = s:BranchName(s:versions[a:tabnr])
+  else
+    let label = s:versions[a:tabnr]
+  endif
+  return (a:tabnr + 1) . ': ' . label
 endfunction
 
 function! s:TabEdit(parent)
@@ -54,7 +77,7 @@ function! s:TabEdit(parent)
   let b:conflicted_version = 'base'
   diffthis
   execute 'Gvsplit :' . s:VersionNumber(a:parent)
-  let b:conflicted_version = a:parent
+  let b:conflicted_version = s:BranchName(a:parent)
   diffthis
   wincmd r
 endfunction
@@ -62,10 +85,10 @@ endfunction
 function! s:SetVersionStatuslines()
   let b:conflicted_version = 'working'
   wincmd h
-  let b:conflicted_version = 'upstream'
+  let b:conflicted_version = s:BranchName('upstream')
   wincmd l
   wincmd l
-  let b:conflicted_version = 'local'
+  let b:conflicted_version = s:BranchName('local')
   wincmd h
 endfunction
 
