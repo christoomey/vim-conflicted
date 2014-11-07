@@ -87,6 +87,7 @@ function! s:NextOrQuit()
   if empty(argv())
     quit
   else
+    bdelete
     argument "move to the next file in the arglist
     Merger
   endif
