@@ -43,7 +43,7 @@ function! s:RebaseBranchName(version)
     let command = "cat .git/rebase-apply/head-name | tr '/' '\n' | tail -1"
     return 'l:('.s:ChompedSystem(command).')'
   elseif a:version ==# 'upstream'
-    let command = "git reflog | grep rebase: | head -1 | tr ' ' '\n' | tail -1"
+    let command = "git reflog | grep 'rebase: checkout' | head -1 | tr ' ' '\n' | tail -1"
     return 'u:('.s:ChompedSystem(command).')'
   else
     return "branch-not-found"
