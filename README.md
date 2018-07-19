@@ -11,6 +11,24 @@ conflicts much more straightforward.
 Usage
 -----
 
+### From git
+
+The easist way to use Conflicted from git is to add an alias for it that opens
+vim with the conflicted plugin activated. You can add the alias with the
+following shell command:
+
+``` sh
+git config --global alias.conflicted '!vim +Conflicted'
+```
+
+From there, you can run conflicted directly from git with:
+
+``` sh
+git conflicted
+```
+
+Which will open Vim and start up the plugin.
+
 ### Commands
 
 Conflicted provides three primary commands for working with conflicts:
