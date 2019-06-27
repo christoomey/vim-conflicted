@@ -50,10 +50,10 @@ function! ConflictedTabLabel(tabnr)
 endfunction
 
 function! s:TabEdit(parent)
-  Gtabedit :1
+  Gtabedit :1:%
   let b:conflicted_version = 'base'
   diffthis
-  execute 'Gvsplit :' . s:VersionNumber(a:parent)
+  execute 'Gvsplit :' . s:VersionNumber(a:parent) . '.%'
   let b:conflicted_version = a:parent
   diffthis
   wincmd r
