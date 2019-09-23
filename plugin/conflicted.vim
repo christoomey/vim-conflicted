@@ -15,7 +15,13 @@ function! s:Conflicted()
 endfunction
 
 function! s:Merger()
-  Gdiff
+  " Shim to support Fugitive 3.0 and prior versions
+  if exists(":Gdiffsplit!")
+    Gdiffsplit!
+  else
+    Gdiff
+  endif
+
   call s:MapTargetedDiffgets()
   call s:SetVersionStatuslines()
   call s:TabEdit('upstream')

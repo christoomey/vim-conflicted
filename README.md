@@ -132,7 +132,7 @@ file. These versions are:
 For each conflicted file, Conflicted will open 3 tabs, each with a different
 diff view presented:
 
-1. **Gdiff 3-way** - 3 way diff comparing the upstream, working, and local
+1. **Gdiffsplit! 3-way** - 3 way diff comparing the upstream, working, and local
    versions of the file.
 
 ![Tab 1 - Working](./images/tab1.png)
