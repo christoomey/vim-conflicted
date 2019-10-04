@@ -16,8 +16,8 @@ endfunction
 
 function! s:Merger()
   " Shim to support Fugitive 3.0 and prior versions
-  if exists(":Gdiffsplit!")
-    Gdiffsplit!
+  if exists(':Gvdiffsplit')
+    Gvdiffsplit!
   else
     Gdiff
   endif
