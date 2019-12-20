@@ -8,7 +8,7 @@ let s:diffget_local_map = 'dgl'
 let s:diffget_upstream_map = 'dgu'
 
 function! s:Conflicted()
-  args `git ls-files -u \| awk '{print $4}' \| sort -u`
+  args `git diff --name-only --diff-filter=U`
   set tabline=%!ConflictedTabline()
   set guitablabel=%{ConflictedGuiTabLabel()}
   Merger
