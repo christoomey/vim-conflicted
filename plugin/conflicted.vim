@@ -27,6 +27,7 @@ function! s:Merger()
   call s:TabEdit('upstream')
   call s:TabEdit('local')
   tabfirst
+  doautocmd User VimConflicted
 endfunction
 
 function! ConflictedTabline()

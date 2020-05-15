@@ -104,6 +104,21 @@ conflicted mode then it will add the conflicted version, ie 'local',
 
 ![Statusline](images/statusline.png)
 
+### Custom settings for Conflicted buffers
+
+When Conflicted has finished setting up, it will call the user autocmd `VimConflicted`.
+
+Usage example:
+
+```vim
+ function! s:setupConflicted()
+     set stl+=%{ConflictedVersion()}
+     " Resolve and move to next conflicted file.
+     nnoremap ]m :GitNextConflict<cr>
+ endfunction
+ autocmd myVimrc User VimConflicted call s:setupConflicted()
+```
+
 Installation
 ------------
 
