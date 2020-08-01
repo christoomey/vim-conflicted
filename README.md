@@ -35,7 +35,7 @@ Or if you prefer to start Conflicted via `git mergetool`:
 # Define a custom mergetool called `vim-conflicted` that runs `vim +Conflicted`
 git config --global mergetool.vim-conflicted.cmd 'vim +Conflicted'
 # Set the `vim-conflicted` mergetool to be used when `git mergetool` is executed
-git config --global merge.tool 'vim +Conflicted'
+git config --global merge.tool 'vim-conflicted'
 ```
 
 ### Commands
