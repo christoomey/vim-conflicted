@@ -10,7 +10,7 @@ let s:diffget_upstream_map = 'dgu'
 function! s:Conflicted()
   args `git diff --name-only --diff-filter=U`
   set tabline=%!ConflictedTabline()
-  set guitablabel=%{ConflictedGuiTabLabel()}
+  silent! set guitablabel=%{ConflictedGuiTabLabel()}
   Merger
 endfunction
 
